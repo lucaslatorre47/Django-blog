@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+{% load static %}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -6,7 +7,21 @@
     <title>Posts</title>
 </head>
 <body>
-{{Post}}
-    
+    <header>
+        <h1>Este es un encabezado</h1>
+    </header>
+
+    <main>
+        <section>
+            {% for Post in posts %}
+            <article>
+                <h3> {{Post.titulo}} </h3>
+                <p>Fecha publicación: {{Post.fecha_publicacion}} </p>
+                <p>Categoría: {{Post.categorias}} </p>
+            </article>
+            {% endfor %}
+        </section>
+    </main>
+
 </body>
 </html>

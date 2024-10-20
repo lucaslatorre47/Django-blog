@@ -23,12 +23,12 @@ class PostAdmin(admin.ModelAdmin):
 
     def noticia_img(self, obj):
         return mark_safe('<a href=¨{0}¨ width=¨30%¨/></a>'.format(self.imagen.url))
-''' 
+
     fieldsets =(
-        'contenido del post', {'description':'ingrese la informacion de titulo y contenido de la noticia', 
+        ('contenido del post', {'description':'ingrese la informacion de titulo y contenido de la noticia', 
         'fields':[('titulo','autor'), 'contenido', 'noticia_img', 'fecha_creacion', 'fecha_publicacion']}
-    )
-'''
+    ),)
+
 class ComentariosAdmin(admin.ModelAdmin):
     list_display=('autor_comentario', 'cuerpo_comentario', 'post', 'fecha_creacion', 'aprobado')
     list_filter=('aprobado', 'fecha_creacion')
@@ -41,3 +41,4 @@ class ComentariosAdmin(admin.ModelAdmin):
 admin.site.register(Categoria, admin.ModelAdmin)
 admin.site.register(Post, PostAdmin)
 admin.site.register(Comentario, ComentariosAdmin)
+

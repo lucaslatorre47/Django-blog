@@ -5,12 +5,20 @@ from django.shortcuts import render
 from .models import Post
 from django.utils import timezone
 # Create your views here.
+def index(request):
+    ultimos_posts= Post.objects.all().order_by('fecha_publicacion').reverse()[:3]
+    return render(request,'index.html',{'ultimos_posts':ultimos_posts})
+
+
+
 def lista_posts(request):
-    posts = Post.objects.filter(fecha_publicacion=timezone.now()).order_by('fecha_publicacion')
+   # posts = Post.objects.filter(fecha_publicacion=timezone.now()).order_by('fecha_publicacion')
+    posts= Post.objects.all().order_by('fecha_publicacion')
+    #ultimos_posts= Post.objects.all().order_by('fecha_publicacion').reverse()[:3] por si queremos mostrar los últimos 3 posts
     return render(request,'posts.html',{'posts':posts})
 
 
-#posts
+
 
 
 '''
