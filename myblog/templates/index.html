@@ -35,7 +35,7 @@
                         <div class="card-body">
                         <h5 class="card-title">{{Post.titulo}}</h5>
                         <p class="card-text">{{Post.contenido | truncatechars:100}}</p>
-                        <a href="{% url 'postdetalle' %}" class="btn btn-primary">Leer más</a>
+                        <a href="{% url 'postdetalle' id=Post.id %}" class="btn btn-primary">Leer más</a>
                         </div>
                     </div>
                 {% endfor %}

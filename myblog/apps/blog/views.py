@@ -18,9 +18,9 @@ def lista_posts(request):
     #ultimos_posts= Post.objects.all().order_by('fecha_publicacion').reverse()[:3] por si queremos mostrar los últimos 3 posts
     return render(request,'posts.html',{'posts':posts})
 
-def postdetalle(request, id):
+def postdetalle(request,id):
     try:
-        data= Post.objects.get(id=id)
+        data = Post.objects.get(id=id)
         comentarios = Comentario.objects.filter(aprobado=True)
 
     except Post.DoesNotExist:
@@ -31,6 +31,10 @@ def postdetalle(request, id):
         'comentarios': comentarios
     }
     return render(request, 'post_detalle.html', context)
+
+
+def Contacto(request):
+    return render(request, 'contacto.html')
 
 
 

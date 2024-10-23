@@ -1,0 +1,30 @@
+{% extends 'base.html' %}  <!--Indica que hereda de base.html-->
+{% load static %}
+
+{% block contenido %}
+
+<section>
+    <h1>Título : {{post.titulo}}</h1>
+    {% if post.fecha_publicacion %}
+        <div>
+            {{post.fecha_publicacion}}
+        </div>
+    {% else %}
+        <a href="#">Publicar Artículo</a>
+    {% endif %}    
+
+    <p>
+        {{post.contenido}}
+    </p>
+    <hr>
+    <div class="container">
+        {% for comentario in Post.comentarios.all %}
+            <p> {{Comentario.cuerpo_comentario}} </p>
+            <p> Autor: {{Comentario.autor_comentario}} </p>
+        {% empty %}
+        <p>Aún no hay comentarios. Sé el primero en crear uno!</p>
+        {% endfor %}
+    </div>
+</section>
+
+{% endblock %}
