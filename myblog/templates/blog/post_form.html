@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block contenido %}
+
+<form class="container">
+    <h1>Registro de Usuario</h1>
+    
+    <label for="username">Usuario:  </label>
+    <input type="text" id="username" name="username" placeholder="Ingrese su usuario" >
+    <hr>
+    <label for="email">Correo electrónico:  </label>
+    <input type="email" name="email" id="user-email" placeholder="Ingrese su correo electrónico">
+    <hr>
+    <label for="password1">Contraseña:  </label>
+    <input type="password1" id="password1" name="password1" placeholder="Ingrese su contraseña" >
+    <hr>
+    <label for="password2">Repetir Contraseña:</label>
+    <input type="password2" id="password2" name="password2" placeholder="Ingrese nuevamente su contraseña" >
+
+    <hr>
+    <button type="submit">Registrarse</button>
+
+
+</form>
+
+{% endblock %}

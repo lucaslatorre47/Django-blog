@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% load static %}
+{% block contenido %}
+<form action="{% url 'actualizarpost'%}" method="POST">
+    {% csrf_token %}
+    <h1>Actualizar Post</h1>
+    <label for="titulo"> Título</label>
+    <input type="text" id="titulo" name="titulo" placeholder="Ingrese el nuevo titulo">
+
+    <label for="resumen"> Resumen</label>
+    <input type="text" id="resumen" name="resumen" placeholder="Ingrese el nuevo resumen" required>
+
+    <button type="submit"> Actualizar</button>
+
+    <!--{% if form.errors %}
+        {% for field in form %}
+            {% for error in field.error %}
+                <div class="alert alert-danger">
+                    <strong>{{ error | escape }}</strong>
+                </div>
+            {% endfor %}
+        {% endfor %}
+
+        {% for error in form.non_field_errors %}
+            <div class="alert alert-danger">
+                <strong>{{ error | escape }}</strong>
+            </div>
+        {% endfor %}
+    {% endif %}
+</form>-->
+{% endblock %}

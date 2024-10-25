@@ -22,6 +22,11 @@ class Post (models.Model):
     
     def mostrarComentarios(self):
         return self.comentario.filter(aprobado=True)
+    
+    def get_absolute_url(self):
+        #return reverse('apps.blog:blog_detail', args=(str(self.id)))
+        return reverse("apps.blog:blog_detalle",kwargs={'id':self.id})
+
 
 class Categoria(models.Model):
     nombre = models.CharField(max_length=100)
@@ -38,4 +43,8 @@ class Comentario (models.Model):
 
     def aprobarComentario(self):
         self.aprobado=True
+        self.save()
+
+    def eliminar(self):
+        self.aprobado=False
         self.save()
