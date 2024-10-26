@@ -9,7 +9,7 @@ urlpatterns =[
     #path('login', auth_views.LoginView.as_view(), name='login'),
     #path('login', login_view, name='login'),
     #path('registrocompletado', TemplateView.as_view(template_name = 'auth/registrocompleto.html'), name='registrocompleto')
-    path('registro',registro, name='registro'),
+    path('registro', registro, name='registro'),
     path('login', auth_views.LoginView.as_view(template_name='registration/login.html'), name='login'),
     path('registrocompletado', TemplateView.as_view(template_name = 'registration/registrocompleto.html'), name='registrocompleto')
 ]

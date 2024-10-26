@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.http.response import Http404
-from django.http import HttpResponseRedirect
+from django.http import HttpResponse
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import(CreateView)
 from django.contrib.auth.decorators import login_required
@@ -10,12 +10,15 @@ from apps.blog.forms import FormComentario, FormPost
 #from django.views.generic import TemplateView
 from .models import Post, Comentario
 from django.utils import timezone
+from .forms import PostForm
 # Create your views here.
+
 def index(request):
     ultimos_posts= Post.objects.all().order_by('fecha_publicacion').reverse()[:3]
     return render(request,'index.html',{'ultimos_posts':ultimos_posts})
 
-
+def about(request):
+    return render(request, 'about.html')
 
 def lista_posts(request):
    # posts = Post.objects.filter(fecha_publicacion=timezone.now()).order_by('fecha_publicacion')
@@ -65,8 +68,18 @@ def postdetalle(request,id):
     }
     return render(request, 'post_detalle.html', context)
 
+def create_post(request):
+    if request.method == 'POST':
+        form = PostForm(request.POST)
+        if form.is_valid():
+            form.save()  # Guarda el nuevo post en la base de datos
+            return redirect('index')  # Redirige a la página de inicio después de guardar
+    else:
+        form = PostForm()
 
-def Contacto(request):
+    return render(request, 'create_post.html', {'form': form})
+
+def contacto(request):
     return render(request, 'contacto.html')
 
 

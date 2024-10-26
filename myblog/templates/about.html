@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Acerca de Nosotros
+{% endblock %}
+
+{% block content %}
+<style>
+    .about-container {
+        max-width: 800px;
+        margin: 40px auto;
+        padding: 20px;
+        background-color: white;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        font-family: 'Arial', sans-serif;
+        line-height: 1.6;
+        color: #333;
+    }
+
+    .about-container h1 {
+        font-size: 2.5em;
+        color: #2c3e50;
+        margin-bottom: 1rem;
+    }
+
+    .about-container p {
+        font-size: 1.125em;
+        color: #555;
+        margin-bottom: 1.5rem;
+    }
+
+    .about-container strong {
+        color: #2c3e50;
+    }
+</style>
+
+<div class="about-container">
+    <h1>Acerca de Nosotros</h1>
+    <p><strong>¡Bienvenidos a nuestro blog!</strong></p>
+    <p>
+        Somos un grupo de estudiantes del curso de desarrollo web en el Informatorio. Nos hemos unido para crear este espacio como parte de nuestro trabajo final, y hemos elegido un tema apasionante: la inteligencia artificial.
+    </p>
+    <p>
+        Nuestro objetivo es explorar y compartir información sobre los avances, aplicaciones y desafíos de la inteligencia artificial en la actualidad. A través de artículos, tutoriales y análisis, esperamos brindarles un recurso valioso para entender mejor este campo en constante evolución.
+    </p>
+    <p>
+        Cada uno de nosotros aporta su perspectiva y habilidades únicas, lo que enriquece nuestras publicaciones y nos permite ofrecer un contenido diverso y atractivo.
+    </p>
+    <p><strong>¡Esperamos que disfruten leyendo nuestro blog tanto como nosotros disfrutamos creándolo!</strong></p>
+</div>
+{% endblock %}
