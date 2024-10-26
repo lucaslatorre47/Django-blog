@@ -1,6 +1,7 @@
 from django.db import models
 from django.conf import settings
 from django.utils import timezone
+from django.shortcuts import reverse
 
 # Create your models here. posts
 class Post (models.Model):
@@ -9,8 +10,8 @@ class Post (models.Model):
     resumen = models.TextField()
     contenido = models.TextField()
     imagen = models.ImageField(null=True, blank=True, upload_to='img/posts', help_text='Seleccione una imágen para mostrar')
-    fecha_creacion = models.DateTimeField(default=timezone.now())
-    fecha_publicacion = models.DateTimeField(blank=True, null=True)
+    fecha_creacion = models.DateTimeField(default=timezone.now)
+    fecha_publicacion = models.DateTimeField(default=timezone.now)
     categorias = models.ManyToManyField('Categoria', related_name='Post')
 
     def publicar(self):

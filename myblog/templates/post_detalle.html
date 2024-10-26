@@ -1,30 +1,32 @@
-{% extends 'base.html' %}  <!--Indica que hereda de base.html-->
-{% load static %}
+{% extends 'base.html' %}   
 
-{% block contenido %}
-
-<section>
-    <h1>Título : {{post.titulo}}</h1>
-    {% if post.fecha_publicacion %}
-        <div>
-            {{post.fecha_publicacion}}
+{% block content %}
+    <div class="post-container">
+        <!-- Muestra el título del post -->
+        <h1 class="post-title">{{ post.titulo }}</h1>
+        
+        <!-- Muestra el contenido del post -->
+        <div class="post-content">
+            <p>{{ post.contenido }}</p>
         </div>
-    {% else %}
-        <a href="#">Publicar Artículo</a>
-    {% endif %}    
+    </div>
 
-    <p>
-        {{post.contenido}}
-    </p>
-    <hr>
-    <div class="container">
-        {% for comentario in Post.comentarios.all %}
-            <p> {{Comentario.cuerpo_comentario}} </p>
-            <p> Autor: {{Comentario.autor_comentario}} </p>
+    <!-- Sección de comentarios -->
+    <div class="comments-section">
+        <h3>Comentarios</h3>
+        
+        <!-- Itera sobre los comentarios asociados al post -->
+        {% for comentario in post.comentarios.all %}
+            <div class="comment">
+                <p class="comment-body">{{ comentario.cuerpo_comentario }}</p>
+                <p class="comment-author">Autor: {{ comentario.autor_comentario }}</p>
+            </div>
         {% empty %}
-        <p>Aún no hay comentarios. Sé el primero en crear uno!</p>
+            <!-- Muestra este mensaje si no hay comentarios -->
+            <p class="no-comments">Aún no hay comentarios. ¡Sé el primero en crear uno!</p>
         {% endfor %}
     </div>
-</section>
 
+    <!-- Enlace para volver al inicio -->
+    <a href="{% url 'index' %}" class="back-link">Volver al inicio</a>
 {% endblock %}
