@@ -1,10 +1,6 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crear Nueva Publicación</title>
-</head>
+{% extends "Base.html" %}
+{% block content %}
+
 <body>
     <div class="container">
         <h1>Crear Nueva Publicación</h1>
@@ -14,8 +10,11 @@
             {{ form.as_p }}  
             <button type="submit">Publicar</button>
         </form>
+        <hr>
 
         <a href="{% url 'index' %}">Volver al inicio</a>
     </div>
 </body>
 </html>
+
+{% endblock %}
