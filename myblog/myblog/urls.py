@@ -30,6 +30,7 @@ urlpatterns = [
     path('contacto/', contacto, name='contacto'),
     path("posts", lista_posts, name='lista_posts'),
     path("posts-detalle/<int:id>/", postdetalle, name='postdetalle'),
+    path('post/<int:post_id>/comentario/', agregar_comentario, name='agregar_comentario'),
     path("actualizar-post/<int:id>/", actualizarpost, name='actualizarpost'),
     path("eliminar-post/<int:id>/", eliminarpost, name='eliminarpost'),
     re_path("post/nuevo", CreatePostView.as_view(), name='CreatePostView'),

@@ -1,14 +1,99 @@
-{% extends 'base.html' %}  <!--Indica que hereda de base.html-->
-{% load static %}
+{% extends 'base.html' %}
+
+{% block title %}
+Página de Inicio
+{% endblock %}
 
 {% block content %}
-        <section>
-            {% for Post in posts %}
-            <article>
-                <h3> {{Post.titulo}} </h3>
-                <p>Fecha publicación: {{Post.fecha_publicacion}} </p>
-                <p>Categoría: {{Post.categorias}} </p>
-            </article>
-            {% endfor %}
-        </section>
+<style>
+    body {
+        font-family: 'Arial', sans-serif;
+        background-color: #9bbcd0;
+        color: #333;
+        margin: 0;
+        padding: 0;
+    }
+
+    h2 {
+        font-size: 2em;
+        color: #222;
+        margin-bottom: 1rem;
+    }
+
+    .blog-container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    ul {
+    list-style-type: none; 
+    padding: 0; 
+}
+
+    .post-card {
+        background-color: rgb(184, 181, 181);
+        padding: 20px;
+        margin-bottom: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .post-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+    }
+
+    .post-title {
+        font-size: 1.5em;
+        color: #2c3e50;
+        margin-bottom: 0.5rem;
+    }
+
+    .post-intro {
+        font-size: 1em;
+        color: #555;
+        margin-bottom: 1rem;
+    }
+
+    .post-meta {
+        font-size: 0.875em;
+        color: #888;
+    }
+
+    .post-link {
+        display: inline-block;
+        margin-top: 10px;
+        color: #3498db;
+        text-decoration: none;
+        font-weight: bold;
+        transition: color 0.3s ease;
+    }
+
+    .post-link:hover {
+        color: #2980b9;
+    }
+
+    .no-posts {
+        text-align: center;
+        font-size: 1.25em;
+        color: #666;
+    }
+</style>
+
+<div class="blog-container">
+    <h2>Publicaciones</h2>
+    <ul>
+        {% for post in posts %}
+            <li class="post-card">  
+                <h3 class="post-title">{{ post.titulo }}</h3>
+                <p class="post-intro">{{ post.contenido | truncatechars:150 }}</p>
+                <a href="{% url 'postdetalle' id=post.id %}" class="post-link">Leer más</a>
+            </li>
+            {% empty %}
+                <p class="no-posts">No hay publicaciones aún.</p>
+            {% endfor %}    
+    </ul>
+</div>
 {% endblock %}

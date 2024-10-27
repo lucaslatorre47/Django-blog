@@ -40,7 +40,7 @@ class Comentario (models.Model):
     autor_comentario = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     cuerpo_comentario = models.TextField()
     fecha_creacion = models.DateTimeField(default=timezone.now())
-    aprobado = models.BooleanField(default=False)
+    aprobado = models.BooleanField(default=True)
 
     def aprobarComentario(self):
         self.aprobado=True

@@ -22,7 +22,13 @@ class PostAdmin(admin.ModelAdmin):
         return "\n".join([c.nombre for c in obj.categorias.all()])
 
     def noticia_img(self, obj):
-        return mark_safe('<a href=¨{0}¨ width=¨30%¨/></a>'.format(self.imagen.url))
+        if obj.imagen:  # Verificamos si hay una imagen antes de renderizar
+            return mark_safe(
+                f'<a href="{obj.imagen.url}"><img src="{obj.imagen.url}" width="10%"/></a>'
+            )
+        return "No image available"
+    #def noticia_img(self, obj):
+    #    return mark_safe('<a href=¨{0}¨ width=¨30%¨/></a>'.format(self.imagen.url))
 
     fieldsets =(
         ('contenido del post', {'description':'ingrese la informacion de titulo y contenido de la noticia', 

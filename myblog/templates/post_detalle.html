@@ -4,6 +4,8 @@
     <div class="post-container">
         <!-- Muestra el título del post -->
         <h1 class="post-title">{{ post.titulo }}</h1>
+
+        <img class="imagen" src="{{ post.imagen }}" alt="Imagen de {{ post.titulo }}" />
         
         <!-- Muestra el contenido del post -->
         <div class="post-content">
@@ -25,7 +27,16 @@
             <!-- Muestra este mensaje si no hay comentarios -->
             <p class="no-comments">Aún no hay comentarios. ¡Sé el primero en crear uno!</p>
         {% endfor %}
-    </div>
+    </div> 
+    
+    <div class="comment-form-container">
+        <form class="comment-form-comentari" method="POST" action="{% url 'agregar_comentario' post.id %}">
+            {% csrf_token %}
+            <label for="contenido">Agregar un comentario:</label>
+            <textarea id="contenido" name="contenido" rows="5" required></textarea>
+            <button type="submit">Enviar Comentario</button>
+        </form>
+      </div>
 
     <!-- Enlace para volver al inicio -->
     <a href="{% url 'index' %}" class="back-link">Volver al inicio</a>
