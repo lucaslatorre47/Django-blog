@@ -5,8 +5,7 @@ class PostForm(forms.ModelForm):
    
     class Meta:
         model = Post
-        fields = ['autor','titulo', 'contenido', 'fecha_publicacion', 'categorias']
-        
+        fields = ['titulo', 'autor', 'resumen', 'contenido', 'imagen', 'categorias', 'fecha_publicacion'] 
         widgets ={
             'titulo': forms.TextInput(attrs={'class':'textIntputClass'}),
             'contenido': forms.Textarea(attrs={'class': 'editable medium-editor-textarea postcontent'}),

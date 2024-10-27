@@ -1,10 +1,11 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http.response import Http404
 from django.http import HttpResponse
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin  #from django.contrib import messages
 from django.views.generic import(CreateView)
 from django.contrib.auth.decorators import login_required
 from apps.blog.forms import FormComentario, FormPost
+from django.contrib import messages
 #from django.http import HttpResponse
 #from django.views import View
 #from django.views.generic import TemplateView
@@ -123,6 +124,27 @@ def publicar_post(request, id):
         raise Http404('No existe el post seleccionado')
     post.publicar()
     return redirect('post_detail', id=id)
+
+#@login_required
+def agregar_comentario(request, post_id):
+    post = get_object_or_404(Post, id=post_id)
+    
+    if request.method == 'POST': #and request.user.is_authenticated:
+        contenido = request.POST.get('contenido')
+
+        if contenido:  # Verificamos que el contenido no esté vacío
+            Comentario.objects.create(
+                autor_comentario=request.user,
+                post=post,
+                cuerpo_comentario=contenido
+            )
+            messages.success(request, '¡Comentario agregado con éxito!')  # Mensaje de éxito
+        else:
+            messages.error(request, 'No puedes enviar un comentario vacío.')  # Manejo de error
+
+        return redirect('postdetalle', id=post_id)  # Redirige de nuevo a la página del post
+
+    return redirect('postdetalle', id=post_id)  # Redirige si no es un POST válido
 
 
 @login_required
