@@ -1,33 +1,55 @@
-{% extends 'base.html' %}   
+{% extends "base.html" %}
+
+{% load static %}
 
 {% block content %}
+  
+
     <div class="post-container">
-        <!-- Muestra el título del post -->
         <h1 class="post-title">{{ post.titulo }}</h1>
 
         <img class="imagen" src="{{ post.imagen }}" alt="Imagen de {{ post.titulo }}" />
         
-        <!-- Muestra el contenido del post -->
+       
         <div class="post-content">
             <p>{{ post.contenido }}</p>
         </div>
     </div>
+    
 
-    <!-- Sección de comentarios -->
-    <div class="comments-section">
-        <h3>Comentarios</h3>
+  <div class = "comentarios">
+    <h2 class = "comentarios_titulo">Comentarios:</h2>
+    <ul class="ul_cometnarios">
+      {% for comentario in comentarios %}
+        <li class="li_comentarios">
+
+         
+          
+          <p class="p_comentarios">{{ comentario.cuerpo_comentario }}</p>
+          
+          
+          <p class="p_fecha_comentarios">{{ comentario.fecha_creacion }}</p>
+          
+          {% if usuario_logeado and comentario.autor_comentario == request.user or request.user.is_staff or colaborador %}
+          <div class="comentario-acciones">
+            <a href="?edit_comentario={{ comentario.id }}">Editar</a>
         
-        <!-- Itera sobre los comentarios asociados al post -->
-        {% for comentario in post.comentarios.all %}
-            <div class="comment">
-                <p class="comment-body">{{ comentario.cuerpo_comentario }}</p>
-                <p class="comment-author">Autor: {{ comentario.autor_comentario }}</p>
-            </div>
-        {% empty %}
-            <!-- Muestra este mensaje si no hay comentarios -->
-            <p class="no-comments">Aún no hay comentarios. ¡Sé el primero en crear uno!</p>
-        {% endfor %}
-    </div> 
+            
+          </div>
+          {% endif %}
+        
+
+          {% if comentario_a_editar and comentario_a_editar.id == comentario.id %}
+            <form method="post" class="comentario-editar">
+              {% csrf_token %}
+              {{ form.as_p }}
+              <button type="submit">Guardar cambios</button>
+            </form>
+          {% endif %}
+
+        </li>
+      {% endfor %}
+    </ul>
     
     <div class="comment-form-container">
         <form class="comment-form-comentari" method="POST" action="{% url 'agregar_comentario' post.id %}">
@@ -36,8 +58,8 @@
             <textarea id="contenido" name="contenido" rows="5" required></textarea>
             <button type="submit">Enviar Comentario</button>
         </form>
-      </div>
+    </div>
 
-    <!-- Enlace para volver al inicio -->
     <a href="{% url 'index' %}" class="back-link">Volver al inicio</a>
+</div>
 {% endblock %}

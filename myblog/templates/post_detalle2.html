@@ -1,0 +1,37 @@
+{% extends 'base.html' %}   
+
+{% block content %}
+    <div class="post-container">
+        <h1 class="post-title">{{ post.titulo }}</h1>
+
+        <img class="imagen" src="{{ post.imagen }}" alt="Imagen de {{ post.titulo }}" />
+        
+        <div class="post-content">
+            <p>{{ post.contenido }}</p>
+        </div>
+    </div>
+
+    <div class="comments-section">
+        <h3>Comentarios</h3>
+        
+        {% for comentario in post.comentarios.all %}
+            <div class="comment">
+                <p class="comment-body">{{ comentario.cuerpo_comentario }}</p>
+                <p class="comment-author">Autor: {{ comentario.autor_comentario }}</p>
+            </div>
+        {% empty %}
+            <p class="no-comments">Aún no hay comentarios. ¡Sé el primero en crear uno!</p>
+        {% endfor %}
+    </div> 
+    
+    <div class="comment-form-container">
+        <form class="comment-form-comentari" method="POST" action="{% url 'agregar_comentario' post.id %}">
+            {% csrf_token %}
+            <label for="contenido">Agregar un comentario:</label>
+            <textarea id="contenido" name="contenido" rows="5" required></textarea>
+            <button type="submit">Enviar Comentario</button>
+        </form>
+      </div>
+
+    <a href="{% url 'index' %}" class="back-link">Volver al inicio</a>
+{% endblock %}

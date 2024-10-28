@@ -21,6 +21,7 @@ from django.conf.urls.static import static
 from django.conf import settings
 
 from apps.blog.views import *
+#from . import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -38,6 +39,14 @@ urlpatterns = [
     re_path('comentario/<int:id>/remove', eliminar_comentario, name='eliminar_comentario'),
     path("filtro-categorias/<categoria>/", lista_categorias, name='lista_categorias'),
     path('post/new/', create_post, name='create-post'),
+
+    path('posts/alfabeticamente/', listar_posts_alfabeticamente, name='listar_posts_alfabeticamente'),
+    path('posts/fechas/<str:tipo>/', fechas, name='listar_posts_fechas'),  # Captura el argumento "tipo"
+    path('categoria/<int:categoria_id>/', listar_posts_por_categoria, name='listar_posts_por_categoria'),
+    path('posts/alfabeticamente/<int:categoria_id>/', listar_posts_por_categoria, name='listar_posts_por_categoria'),
+    path('categoria/<int:categoria_id>/', listar_posts_por_categoria, name='listar_posts_por_categoria'),
+    path("inicio/", listar_posts, name="inicio2"),
+
    # path('', home_view, name= 'home_view'),
     #path('index', index, name= 'index'),
     #path('', indexview.as_view(), name='index'),

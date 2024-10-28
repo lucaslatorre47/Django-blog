@@ -9,7 +9,7 @@ from django.contrib import messages
 #from django.http import HttpResponse
 #from django.views import View
 #from django.views.generic import TemplateView
-from .models import Post, Comentario
+from .models import Post, Comentario, Categoria
 from django.utils import timezone
 from .forms import PostForm
 # Create your views here.
@@ -82,6 +82,82 @@ def create_post(request):
 
 def contacto(request):
     return render(request, 'contacto.html')
+
+def listar_posts_por_categoria(request, categoria_id):
+    global categoria,categorias
+    categoria = get_object_or_404(Categoria, id=categoria_id)
+    posts = Post.objects.filter(categorias=categoria)  # Filtra los posts por la categoría seleccionada
+    categorias = Categoria.objects.all()  # Obtén todas las categorías para el aside
+
+
+    return render(request, 'filtrado_categorias.html', {
+        'posts': posts,
+        'categorias': categorias,  # Pasa las categorías para el aside
+        'mostrar_categorias': True,
+        'mostrar_fechas': True,
+        'mostrar_cargas': True
+    })
+
+def listar_posts_alfabeticamente(request):
+
+    categorias = Categoria.objects.all()  # Asegúrate de obtener las categorías
+
+
+    orden = request.GET.get('orden', 'asc')  # Obtener el parámetro de orden de la URL
+    if orden == 'desc':
+        ultimosposts = Post.objects.all().order_by('-titulo')[:4]  # Ordenar de Z a A
+    else:
+        ultimosposts = Post.objects.all().order_by('titulo')[:4]  # Ordenar de A a Z
+
+    return render(request, 'inicio.html', {'ultimosposts': ultimosposts, 
+                                           'mostrar_cargas': True,
+                                           'categorias': categorias, 
+                                           'mostrar_fechas': True,
+                                           'mostrar_categorias': True})
+
+
+def fechas(request, tipo):
+    categorias = Categoria.objects.all()  # Asegúrate de obtener las categorías
+    if tipo == 'recientes':
+        ultimosposts = Post.objects.all().order_by('-fecha_publicacion')[:4]  # Más recientes
+    elif tipo == 'antiguos':
+        ultimosposts = Post.objects.all().order_by('fecha_publicacion')[:4]  # Más antiguos
+    else:
+        ultimosposts = Post.objects.all()  # O una lista vacía, según lo que desees
+    return render(request, 'inicio.html', {'ultimosposts': ultimosposts,
+                                           'categorias': categorias, 
+                                           'mostrar_cargas': True, 
+                                           'mostrar_fechas': True,
+                                           'mostrar_categorias': True})
+
+def listar_posts(request):
+    posts = Post.objects.all()  # Obtén todos los posts
+    categorias = Categoria.objects.all()  # Obtén todas las categorías
+    ultimosposts = Post.objects.all().order_by('fecha_publicacion')  # Cambia si necesitas limitar e numero de post
+    #ultimos_mensajes = MensajeContacto.objects.order_by('-fecha_envio')[:3]
+    ## implementacion
+
+    # Filtrar posts si hay un parámetro de categoría en la URL
+    categoria_id = request.GET.get('categoria')
+    if categoria_id:
+        posts = posts.filter(categorias__id=categoria_id)
+
+    return render(request, 'inicio2.html', 
+                  {'ultimosposts': ultimosposts, 
+                   'categorias': categorias ,
+                   'mostrar_categorias': True,
+                   'mostrar_fechas': True,
+                   #'ultimos_mensajes': ultimos_mensajes
+                   })
+
+
+def listar_categorias(request):
+    categorias = Categoria.objects.all()  # Obtén todas las categorías
+    posts = Post.objects.all()  # Puedes agregar esto si deseas también listar los posts
+    return render(request, 'base.html', {'categorias': categorias,
+                                           'posts': posts,
+                                           'mostrar_cargas': True,
+                                           'mostrar_fechas': True})
 
 
 @login_required
