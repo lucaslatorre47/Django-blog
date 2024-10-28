@@ -5,4 +5,13 @@
 <div class="post-content">
     <h1>Contactate con Nosotros</h1>
 </div>
+
+<body>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Enviar</button>
+    </form>
+</body>
+
 {% endblock %}

@@ -31,3 +31,8 @@ class FormComentario(forms.Form):
             'autor_comentario': forms.TextInput(attrs={"class": "form-control", "placeholder": "Tu nombre"}),
             'cuerpo_comentario': forms.Textarea(attrs={'class': 'editable medium-editor-textarea postcontent form-control', 'placeholder': 'Escribí aquí tu comentario!'}),
         }
+
+class ContactForm(forms.Form):
+    nombre = forms.CharField(max_length=100, label="Nombre")
+    correo = forms.EmailField(label="Correo")
+    mensaje = forms.CharField(widget=forms.Textarea, label="Mensaje")

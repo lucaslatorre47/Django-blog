@@ -11,7 +11,9 @@ from django.contrib import messages
 #from django.views.generic import TemplateView
 from .models import Post, Comentario
 from django.utils import timezone
-from .forms import PostForm
+from .forms import PostForm, ContactForm
+from django.core.mail import send_mail
+from django.conf import settings
 # Create your views here.
 
 def index(request):
@@ -81,8 +83,27 @@ def create_post(request):
     return render(request, 'create_post.html', {'form': form})
 
 def contacto(request):
-    return render(request, 'contacto.html')
+    if request.method == 'POST':
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            nombre = form.cleaned_data['nombre']
+            correo = form.cleaned_data['correo']
+            mensaje = form.cleaned_data['mensaje']
+            # Enviar correo (requiere configuración de correo en settings.py)
+            send_mail(
+                f"Mensaje de {nombre}",
+                mensaje,
+                correo,
+                [settings.DEFAULT_FROM_EMAIL],
+            )
+            return redirect('contacto_exitoso')  # Redirige a una página de éxito
+    else:
+        form = ContactForm()
 
+    return render(request, 'contacto.html', {'form': form})
+
+def contacto_exitoso(request):
+    return render(request, 'contacto_exitoso.html')
 
 @login_required
 def actualizarpost(request, id):
