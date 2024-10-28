@@ -11,7 +11,9 @@ from django.contrib import messages
 #from django.views.generic import TemplateView
 from .models import Post, Comentario, Categoria
 from django.utils import timezone
-from .forms import PostForm
+from .forms import PostForm, ContactForm
+from django.core.mail import send_mail
+from django.conf import settings
 # Create your views here.
 
 def index(request):
@@ -73,21 +75,37 @@ def create_post(request):
     if request.method == 'POST':
         form = PostForm(request.POST)
         if form.is_valid():
-            form.save()  # Guarda el nuevo post en la base de datos
-            return redirect('index')  # Redirige a la página de inicio después de guardar
+            form.save()  
+            return redirect('index')  
     else:
         form = PostForm()
 
     return render(request, 'create_post.html', {'form': form})
 
 def contacto(request):
-    return render(request, 'contacto.html')
+    if request.method == 'POST':
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            nombre = form.cleaned_data['nombre']
+            correo = form.cleaned_data['correo']
+            mensaje = form.cleaned_data['mensaje']
+            
+            send_mail(
+                f"Mensaje de {nombre}",
+                mensaje,
+                correo,
+                [settings.DEFAULT_FROM_EMAIL],
+            )
+            return redirect('contacto_exitoso')  
+    else:
+        form = ContactForm()
+
 
 def listar_posts_por_categoria(request, categoria_id):
     global categoria,categorias
     categoria = get_object_or_404(Categoria, id=categoria_id)
-    posts = Post.objects.filter(categorias=categoria)  # Filtra los posts por la categoría seleccionada
-    categorias = Categoria.objects.all()  # Obtén todas las categorías para el aside
+    posts = Post.objects.filter(categorias=categoria)  
+    categorias = Categoria.objects.all()  
 
 
     return render(request, 'filtrado_categorias.html', {
@@ -100,7 +118,7 @@ def listar_posts_por_categoria(request, categoria_id):
 
 def listar_posts_alfabeticamente(request):
 
-    categorias = Categoria.objects.all()  # Asegúrate de obtener las categorías
+    categorias = Categoria.objects.all() 
 
 
     orden = request.GET.get('orden', 'asc')  # Obtener el parámetro de orden de la URL
@@ -158,6 +176,12 @@ def listar_categorias(request):
                                            'posts': posts,
                                            'mostrar_cargas': True,
                                            'mostrar_fechas': True})
+
+
+    return render(request, 'contacto.html', {'form': form})
+
+def contacto_exitoso(request):
+    return render(request, 'contacto_exitoso.html')
 
 
 @login_required
